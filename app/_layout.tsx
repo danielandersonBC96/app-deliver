@@ -1,29 +1,35 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { Text, View } from 'react-native';
 import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+// Mantém a Splash até as fontes carregarem
+SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+export default function Layout() {
+  const [fontsLoaded, error] = useFonts({
+    "Quicksand-Bold": require('../assets/fonts/Quicksand-Bold.ttf'),
+    "Quicksand-Medium": require('../assets/fonts/Quicksand-Medium.ttf'),   // corrigido
+    "Quicksand-Regular": require('../assets/fonts/Quicksand-Regular.ttf'),
+    "Quicksand-SemiBold": require('../assets/fonts/Quicksand-SemiBold.ttf'),
+    "Quicksand-Light": require('../assets/fonts/Quicksand-Light.ttf'),     // corrigido
   });
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
+  useEffect(() => {
+    if (error) throw error;
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, error]);
+
+  useEffect(() => {
+ 
+  }, [])
+
+  if (!fontsLoaded) {
+    return null; // ou um loader
   }
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+  return <Stack screenOptions={{ headerShown: false}} />
 }
