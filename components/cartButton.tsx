@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25, // círculo perfeito
-    backgroundColor: 'tomato',
+    backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24,
-    tintColor: 'white',
+    tintColor: 'black',
     resizeMode: 'contain',
   },
   badge: {

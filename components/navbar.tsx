@@ -11,13 +11,7 @@ export default function Navbar() {
         {/* Coluna esquerda: título + Brasil */}
         <View style={styles.leftColumn}>
           <Text style={styles.title}>Delivery To</Text>
-          <TouchableOpacity style={styles.locationBtn}>
-            <Text style={styles.locationText}>Brasil</Text>
-            <Image
-              source={require('../assets/icons/arrow-right.png')}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
+          
         </View>
 
         {/* CartButton à direita */}
@@ -29,13 +23,13 @@ export default function Navbar() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'tomato',
+    backgroundColor: 'white',
     paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 10,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    shadowColor: '#000',
+    shadowColor: '#000000a2',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
@@ -49,7 +43,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',           // linha principal
     justifyContent: 'space-between', // espaço entre left e right
     alignItems: 'center',           // centraliza verticalmente
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     padding: 20,
     borderRadius: 30,
   },
@@ -60,7 +54,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: '700',
-    color: 'tomato',
+    color: 'white',
     marginBottom: 4, // espaçamento suave entre título e localização
   },
   locationBtn: {
@@ -68,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 14,
     paddingVertical: 6,
-    backgroundColor: '#ff7f50',
+    backgroundColor: '#FE8C00',
     borderRadius: 50,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },

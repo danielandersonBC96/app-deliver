@@ -1,43 +1,59 @@
-// Page.js
 import React from 'react';
-import { FlatList, View, Text, Pressable, ImageBackground, Image, StyleSheet, Dimensions } from 'react-native';
+import {
+  FlatList,
+  View,
+  Text,
+  Pressable,
+  ImageBackground,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images, offers } from '@/constants';
-import Navbar from '../components/navbar'; // importa Navbar
+import Navbar from '@/components/navbar';
+import { useRouter } from 'expo-router';
 
 const { width } = Dimensions.get('window');
-const CARD_WIDTH = width * 0.9; 
-const CARD_HEIGHT = 280;
-const CARD_PADDING = 26;
+const CARD_MARGIN = 10;
+const CARD_WIDTH = (width / 2) - (CARD_MARGIN * 3); // 2 cards por linha
+const CARD_HEIGHT = 160;
 
-export default function Page() {
+export default function Index() {
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* Navbar colada no topo */}
       <Navbar />
 
-      {/* Lista de cards */}
+      {/* Botão voltar */}
+      <Pressable style={styles.backButton} onPress={() => router.push('/login')}>
+       
+      </Pressable>
+
+      {/* Lista em grid */}
       <FlatList
         data={offers}
         keyExtractor={(item) => item.id.toString()}
+        numColumns={2} // 2 cards por linha
         contentContainerStyle={styles.contentContainer}
+        columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: CARD_MARGIN }}
         renderItem={({ item }) => (
           <Pressable style={styles.card}>
             <ImageBackground
               source={item.image}
               style={styles.imageBackground}
-              imageStyle={{ borderRadius: 16 }}
+              imageStyle={{ borderRadius: 20 }}
             >
               <View style={styles.overlay} />
-
-              {/* Linha com título + seta */}
               <View style={styles.row}>
                 <Text style={styles.title}>{item.title}</Text>
-                <Image source={images.arrowRight} style={styles.icon} />
+              
               </View>
             </ImageBackground>
           </Pressable>
         )}
+        showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
   );
@@ -46,44 +62,43 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'tomato',
-    paddingTop: 0, // Navbar colada no topo
+    backgroundColor: 'black',
+    paddingHorizontal: CARD_MARGIN,
+  },
+
+  backButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: 'black',
   },
   contentContainer: {
-    alignItems: 'center',
-    paddingTop: 10, // espaçamento entre Navbar e cards
-    paddingBottom: 28,
-    backgroundColor:'white',
-    margin:10,
-    marginLeft:10,
-    marginBlock:10, 
-    marginTop:10,
-    marginBottom:30,
-    borderRadius:30,
-    
-},
+    paddingBottom: 30,
+    backgroundColor: 'white',
+    padding :10,
+    borderRadius:30
+  },
   card: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
-    borderRadius: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    shadowColor: 'white',
+    shadowOffset: { width:0 , height: 3 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 4,
     overflow: 'hidden',
-    
+    marginBottom: CARD_MARGIN,
   },
   imageBackground: {
     flex: 1,
     justifyContent: 'flex-end',
-    padding: CARD_PADDING,
+    padding:20,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(17, 17, 17, 0.54)',
-    borderRadius: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.25)',
+    borderRadius: 20,
   },
   row: {
     flexDirection: 'row',
@@ -94,7 +109,7 @@ const styles = StyleSheet.create({
   title: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 18,
   },
   icon: {
     width: 24,
