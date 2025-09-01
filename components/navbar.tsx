@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 10,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     shadowColor: '#000000a2',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',           // centraliza verticalmente
     backgroundColor: 'black',
     padding: 20,
-    borderRadius: 30,
+    borderRadius: 10,
   },
   leftColumn: {
     flexDirection: 'column',

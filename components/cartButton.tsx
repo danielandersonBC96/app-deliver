@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24,
-    tintColor: 'black',
+    tintColor: '',
     resizeMode: 'contain',
   },
   badge: {
