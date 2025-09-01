@@ -19,7 +19,7 @@ const CARD_MARGIN = 10;
 const CARD_WIDTH = (width / 2) - (CARD_MARGIN * 3); // 2 cards por linha
 const CARD_HEIGHT = 160;
 
-export default function Index() {
+export default function Home() {
   const router = useRouter();
 
   return (
@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     backgroundColor: 'white',
     padding :10,
-    borderRadius:30
+    borderRadius:20,
+    height:510
   },
   card: {
     width: CARD_WIDTH,

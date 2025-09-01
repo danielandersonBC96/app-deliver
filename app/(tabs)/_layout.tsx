@@ -14,10 +14,10 @@ const TabBarIcon = ({ focused, title, icon }: TabBarIconProps) => (
   <View style={styles.tabIcon}>
     <Image
       source={icon}
-      style={[styles.icon, { tintColor: focused ? 'black' : '#5D5F6D' }]}
+      style={[styles.icon, { tintColor: focused ? '#FE8C00' : '#5D5F6D' }]}
       resizeMode="contain"
     />
-    <Text style={[styles.tabText, { color: focused ? 'black' : '#5D5F6D' }]}>
+    <Text style={[styles.tabText, { color: focused ? '#FE8C00' : '#5D5F6D' }]}>
       {title}
     </Text>
   </View>
@@ -28,30 +28,47 @@ export default function TabLayout() {
     <Tabs
       initialRouteName="index"
       screenOptions={{
-        headerShown: false,
+        headerShown: false, // remove header globalmente
         tabBarShowLabel: false,
         tabBarStyle: styles.tabBar,
       }}
     >
       <Tabs.Screen
         name="index"
+        
         options={{
-          title: 'Home',
-          tabBarIcon: ({ focused }) => <TabBarIcon title="Home" icon={images.home} focused={focused} />,
+           headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon title="Home" icon={images.home} focused={focused} />
+          ),
+        }}
+      />
+             <Tabs.Screen
+        name="search"
+        options={{
+           headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon title="Search" icon={images.search} focused={focused} />
+          ),
         }}
       />
       <Tabs.Screen
         name="cart"
         options={{
-          title: 'Cart',
-          tabBarIcon: ({ focused }) => <TabBarIcon title="Cart" icon={images.bag} focused={focused} />,
+           headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon title="Cart" icon={images.bag} focused={focused} />
+          ),
         }}
       />
       <Tabs.Screen
         name="profile"
+        
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ focused }) => <TabBarIcon title="Profile" icon={images.person} focused={focused} />,
+           headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon title="Profile" icon={images.person} focused={focused} />
+          ),
         }}
       />
     </Tabs>
@@ -62,35 +79,33 @@ const styles = StyleSheet.create({
   tabBar: {
     borderRadius: 50,
     marginHorizontal: 20,
-    height: 80,
+    height: 60,
+    
     position: 'absolute',
     bottom: 40,
     backgroundColor: 'white',
-    shadowColor: '#ffbc02ff',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 6,
     flexDirection: 'row',
-    justifyContent: 'space-around', // centraliza os ícones horizontalmente
+    justifyContent: 'space-between', // 👈 distribui igualmente
     alignItems: 'center',
   },
   tabIcon: {
-    flexDirection: 'row', // ícone e texto em linha
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6, // espaçamento entre ícone e texto
+    justifyContent: 'space-between',
+    
   },
   icon: {
-    width: 24,
-    height: 24,
-    marginTop:-10
+    width: 18,
+    height: 28,
+    marginBottom: 4,
   },
   tabText: {
-    fontSize: 12,
+    fontSize: 7,
     fontWeight: '700',
-    marginTop:18,
-    marginLeft:-36
-    
   },
 });

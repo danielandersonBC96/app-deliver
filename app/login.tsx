@@ -62,7 +62,7 @@ export default function Login() {
             <TextInput
               style={styles.input}
               placeholder="Senha"
-              placeholderTextColor="tomato"
+              placeholderTextColor="black"
               value={password}
               onChangeText={setPassword}
               secureTextEntry
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#FE8C00',
+    backgroundColor: 'black',
     paddingBottom: 20,
   },
   graphic: {
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: '700',
-    color: 'white',
+    color: 'yellow',
     marginBottom: 10,
   },
   subtitle: {
@@ -126,23 +126,24 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    padding: 15,
+    padding: 25,
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 10,
     marginBottom: 15,
     fontSize: 16,
+     borderRadius:30
   },
   button: {
     width: '100%',
     padding: 15,
-    backgroundColor: '#FE8C00',
+    backgroundColor: 'black',
     borderRadius: 10,
     alignItems: 'center',
     marginBottom: 15,
   },
   buttonText: {
-    color: 'white',
+    color: 'yellow',
     fontWeight: '700',
     fontSize: 16,
   },
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
     color: '#555',
   },
   link: {
-    color: 'tomato',
+    color: 'yellow',
     fontWeight: '700',
   },
 });
