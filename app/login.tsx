@@ -1,158 +1,112 @@
-// app/login.tsx
-import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  StyleSheet, 
-  KeyboardAvoidingView, 
-  Platform,
-  ScrollView,
-  Image,
+// app/(tabs)/search.tsx
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  FlatList,
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
   Dimensions,
-  Alert
 } from 'react-native';
-import { useRouter } from 'expo-router';
-import { images } from '@/constants';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { offers, sides, toppings } from '@/constants';
+import Navbar from '@/components/navbar';
+import { useLocalSearchParams, useFocusEffect } from 'expo-router';
+import ButtonDetails from '@/components/buttonDetails';
 
 const { width } = Dimensions.get('window');
+const CARD_MARGIN = 10;
 
-export default function Login() {
-  const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+// Combina todos os itens em uma única lista
+const allItems = [
+  ...offers.map(item => ({ id: `offer-${item.id}`, name: item.title, image: item.image })),
+  ...sides.map((item, index) => ({ id: `side-${index}`, name: item.name, image: item.image })),
+  ...toppings.map((item, index) => ({ id: `topping-${index}`, name: item.name, image: item.image })),
+];
 
-  const handleLogin = () => {
-    // Usuário de teste
-    const TEST_USER = {
-      email: 'teste@exemplo.com',
-      password: '123456',
-    };
+export default function Search() {
+  const { category } = useLocalSearchParams<{ category?: string }>();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredItems, setFilteredItems] = useState(allItems);
 
-    if (email === TEST_USER.email && password === TEST_USER.password) {
-      router.replace('/'); // Vai para as tabs
-    } else {
-      Alert.alert('Erro', 'Email ou senha incorretos!');
+  // Reseta a pesquisa toda vez que a tela ganha foco
+  useFocusEffect(
+    useCallback(() => {
+      setSearchQuery('');
+      setFilteredItems(allItems);
+    }, [])
+  );
+
+  // Filtra os itens por categoria e pesquisa
+  useEffect(() => {
+    let items = allItems;
+
+    if (category) {
+      items = items.filter(item =>
+        item.name.toLowerCase().includes(category.toLowerCase())
+      );
     }
-  };
+
+    if (searchQuery) {
+      items = items.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredItems(items);
+  }, [searchQuery, category]);
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
-      <ScrollView contentContainerStyle={styles.scroll}>
-        <View style={styles.container}>
-          <Image source={images.loginGraphic} style={styles.graphic} />
+    <SafeAreaView style={styles.container}>
+      <Navbar />
 
-          <Text style={styles.title}>Bem-vindo</Text>
-          <Text style={styles.subtitle}>Faça login para continuar</Text>
+      {/* Barra de pesquisa */}
+      <View style={styles.searchContainer}>
+        <TextInput
+          placeholder="Search foods..."
+          placeholderTextColor="#999"
+          style={styles.searchInput}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
 
-          <View style={styles.formContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              placeholderTextColor="tomato"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Senha"
-              placeholderTextColor="black"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
-
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-              <Text style={styles.buttonText}>Entrar</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => router.push('/sign-up')}>
-              <Text style={styles.linkText}>
-                Não tem uma conta? <Text style={styles.link}>Cadastre-se</Text>
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      {/* Lista de itens */}
+      <FlatList
+        data={filteredItems}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
+        contentContainerStyle={styles.contentContainer}
+        renderItem={({ item }) => (
+          <ButtonDetails 
+            id={item.id} 
+            name={item.name} 
+            image={item.image as string} 
+          />
+        )}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => <Text style={styles.emptyText}>No results</Text>}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: {
-    flexGrow: 1,
+  container: { flex: 1, backgroundColor: '#FE8C00', padding: CARD_MARGIN },
+  searchContainer: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    height: 40,
     justifyContent: 'center',
   },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'black',
-    paddingBottom: 20,
-  },
-  graphic: {
-    width: width,
-    height: 500,
-    resizeMode: 'contain',
-    marginBottom: 10,
-    marginTop: -50,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: 'yellow',
-    marginBottom: 10,
-  },
-  subtitle: {
+  searchInput: {
     fontSize: 16,
-    color: '#fff',
-    marginBottom: 20,
+    color: '#000',
   },
-  formContainer: {
-    width: '90%',
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
-  },
-  input: {
-    width: '100%',
-    padding: 25,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 10,
-    marginBottom: 15,
-    fontSize: 16,
-     borderRadius:30
-  },
-  button: {
-    width: '100%',
-    padding: 15,
-    backgroundColor: 'black',
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  buttonText: {
-    color: 'yellow',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  linkText: {
-    fontSize: 14,
-    color: '#555',
-  },
-  link: {
-    color: 'yellow',
-    fontWeight: '700',
-  },
+  contentContainer: { paddingBottom: 30 },
+  row: { justifyContent: 'space-between', marginBottom: CARD_MARGIN },
+  emptyText: { color: 'white', textAlign: 'center', marginTop: 50 },
 });

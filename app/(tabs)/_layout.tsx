@@ -77,35 +77,36 @@ export default function TabLayout() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    borderRadius: 50,
-    marginHorizontal: 20,
-    height: 65,
-    
+    height: 70,                // altura menor
     position: 'absolute',
-    bottom: 40,
+    bottom: 0,
+    left: 0,
+    right: 0,
     backgroundColor: 'white',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 6,
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 5,
     flexDirection: 'row',
-    justifyContent: 'space-between', // 👈 distribui igualmente
+    justifyContent: 'space-around',
     alignItems: 'center',
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderRadius:45
   },
   tabIcon: {
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    
+    justifyContent: 'center',
   },
   icon: {
-    width: 18,
-    height: 28,
-    marginBottom: 4,
+    width: 18,    // menor que antes
+    height: 18,
+    marginBottom: 1,
   },
   tabText: {
-    fontSize: 7,
+    fontSize: 6,  // menor que antes
     fontWeight: '700',
   },
 });

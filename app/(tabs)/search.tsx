@@ -5,7 +5,6 @@ import {
   View,
   Text,
   TextInput,
-  Pressable,
   Image,
   StyleSheet,
   Dimensions,
@@ -14,14 +13,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { offers, sides, toppings } from '@/constants';
 import Navbar from '@/components/navbar';
 import { useLocalSearchParams, useFocusEffect } from 'expo-router';
+import ButtonDetails from '@/components/buttonDetails';
 
 const { width } = Dimensions.get('window');
-const CARD_MARGIN = 10;
-const CARD_WIDTH = (width / 2) - (CARD_MARGIN * 3);
-const CARD_HEIGHT = 180;
+const CARD_MARGIN = 12;
+const CARD_WIDTH = (width - CARD_MARGIN * 3) / 2;
 
-// Combina todos os itens em uma única lista **fora do componente**
-const allItems = [
+type Item = { id: string; name: string; image: any; type: string };
+
+// Combina todos os itens em uma única lista
+const allItems: Item[] = [
   ...offers.map(item => ({ id: `offer-${item.id}`, name: item.title, image: item.image, type: 'offer' })),
   ...sides.map((item, index) => ({ id: `side-${index}`, name: item.name, image: item.image, type: 'side' })),
   ...toppings.map((item, index) => ({ id: `topping-${index}`, name: item.name, image: item.image, type: 'topping' })),
@@ -30,27 +31,24 @@ const allItems = [
 export default function Search() {
   const { category } = useLocalSearchParams<{ category?: string }>();
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredItems, setFilteredItems] = useState(allItems);
+  const [filteredItems, setFilteredItems] = useState<Item[]>(allItems);
 
-  // Reseta a pesquisa toda vez que a tela ganha foco
   useFocusEffect(
     useCallback(() => {
       setSearchQuery('');
-      setFilteredItems(allItems); // mostra todos os itens
+      setFilteredItems(allItems);
     }, [])
   );
 
   useEffect(() => {
     let items = allItems;
 
-    // Filtra pela categoria, se existir
     if (category) {
       items = items.filter(item =>
         item.name.toLowerCase().includes(category.toLowerCase())
       );
     }
 
-    // Filtra pela barra de pesquisa
     if (searchQuery) {
       items = items.filter(item =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -58,74 +56,90 @@ export default function Search() {
     }
 
     setFilteredItems(items);
-  }, [searchQuery, category]); // **remove allItems daqui**
+  }, [searchQuery, category]);
+
+  const renderCard = ({ item }: { item: Item }) => (
+    <View style={styles.card}>
+      <Image
+        source={typeof item.image === 'string' ? { uri: item.image } : item.image}
+        style={styles.image}
+        resizeMode="cover"
+      />
+      <Text style={styles.title}>{item.name}</Text>
+      <ButtonDetails id={item.id} name={item.name} image={item.image} />
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <Navbar />
+      <TextInput
+        placeholder="Search foods..."
+        placeholderTextColor="#999"
+        style={styles.searchInput}
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
 
-      {/* Barra de pesquisa */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          placeholder="Search foods..."
-          placeholderTextColor="#999"
-          style={styles.searchInput}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-      </View>
-
-      {/* Lista de itens */}
       <FlatList
         data={filteredItems}
         keyExtractor={(item) => item.id}
         numColumns={2}
         columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.contentContainer}
-        renderItem={({ item }) => (
-          <Pressable style={styles.card}>
-            <Image source={item.image} style={styles.icon} resizeMode="cover" />
-            <Text style={styles.title}>{item.name}</Text>
-          </Pressable>
-        )}
+        contentContainerStyle={styles.listContainer}
+        renderItem={renderCard}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => <Text style={styles.emptyText}>No results</Text>}
+        ListEmptyComponent={() => <Text style={styles.emptyText}>No results found</Text>}
       />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: 'black', padding: CARD_MARGIN },
-  searchContainer: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    height: 40,
-    justifyContent: 'center',
-  },
+  container: { flex: 1, backgroundColor: '#FE8C00', paddingHorizontal: CARD_MARGIN },
   searchInput: {
+    height: 45,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    paddingHorizontal: 15,
     fontSize: 16,
     color: '#000',
+    marginVertical: 12,
   },
-  contentContainer: { paddingBottom: 30 },
+  listContainer: { paddingBottom: 30 },
   row: { justifyContent: 'space-between', marginBottom: CARD_MARGIN },
   card: {
     width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    borderRadius: 20,
     backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: 16,
+    overflow: 'hidden',
     marginBottom: CARD_MARGIN,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
-    elevation: 4,
+    elevation: 5,
+    alignItems: 'center',
+    paddingBottom: 10,
   },
-  icon: { width: 80, height: 80, marginBottom: 10, borderRadius: 10 },
-  title: { fontSize: 14, fontWeight: 'bold', textAlign: 'center' },
-  emptyText: { color: 'white', textAlign: 'center', marginTop: 50 },
+  image: {
+    width: '100%',
+    aspectRatio: 1.2,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    backgroundColor: 'whitesmoke',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginVertical: 8,
+    paddingHorizontal: 5,
+  },
+  emptyText: {
+    color: 'white',
+    textAlign: 'center',
+    marginTop: 50,
+    fontSize: 16,
+  },
 });
