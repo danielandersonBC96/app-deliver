@@ -63,98 +63,113 @@ export const CATEGORIES = [
         name: "Burrito",
     },
 ];
-
 export const offers = [
-    {
-        id: 1,
-        title: "SUMMER COMBO",
-        image: burgerOne,
-        color: "#D33B0D",
-    },
-    {
-        id: 2,
-        title: "BURGER BASH",
-        image: burgerTwo,
-        color: "#DF5A0C",
-    },
-    {
-        id: 3,
-        title: "PIZZA PARTY",
-        image: pizzaOne,
-        color: "#084137",
-    },
-    {
-        id: 4,
-        title: "BURRITO DELIGHT",
-        image: buritto,
-        color: "#EB920C",
-    },
+  {
+    id: 1,
+    title: "SUMMER COMBO",
+    image: burgerOne,
+    color: "#D33B0D",
+    description: "Um combo refrescante com hambúrguer suculento, batatas crocantes e uma bebida gelada.",
+  },
+  {
+    id: 2,
+    title: "BURGER BASH",
+    image: burgerTwo,
+    color: "#DF5A0C",
+    description: "Nosso hambúrguer especial, perfeito para quem ama carne grelhada e queijo derretido.",
+  },
+  {
+    id: 3,
+    title: "PIZZA PARTY",
+    image: pizzaOne,
+    color: "#084137",
+    description: "Uma pizza deliciosa, ideal para compartilhar com os amigos em qualquer ocasião.",
+  },
+  {
+    id: 4,
+    title: "BURRITO DELIGHT",
+    image: buritto,
+    color: "#EB920C",
+    description: "Burrito recheado com ingredientes frescos e saborosos, feito para matar a fome.",
+  },
 ];
 
 export const sides = [
-    {
-        name: "Fries",
-        image: fries,
-        price: 3.5,
-    },
-    {
-        name: "Onion Rings",
-        image: onionRings,
-        price: 4.0,
-    },
-    {
-        name: "Mozarella Sticks",
-        image: mozarellaSticks,
-        price: 5.0,
-    },
-    {
-        name: "Coleslaw",
-        image: coleslaw,
-        price: 2.5,
-    },
-    {
-        name: "Salad",
-        image: salad,
-        price: 4.5,
-    },
+  {
+    name: "Fries",
+    image: fries,
+    price: 3.5,
+    description: "Batatas fritas douradas e crocantes, um clássico irresistível.",
+  },
+  {
+    name: "Onion Rings",
+    image: onionRings,
+    price: 4.0,
+    description: "Anéis de cebola empanados, crocantes por fora e macios por dentro.",
+  },
+  {
+    name: "Mozarella Sticks",
+    image: mozarellaSticks,
+    price: 5.0,
+    description: "Palitos de mussarela derretida com uma crosta crocante deliciosa.",
+  },
+  {
+    name: "Coleslaw",
+    image: coleslaw,
+    price: 2.5,
+    description: "Salada de repolho cremosa e refrescante, perfeita como acompanhamento.",
+  },
+  {
+    name: "Salad",
+    image: salad,
+    price: 4.5,
+    description: "Salada leve e saudável com ingredientes fresquinhos.",
+  },
 ];
 
 export const toppings = [
-    {
-        name: "Avocado",
-        image: avocado,
-        price: 1.5,
-    },
-    {
-        name: "Bacon",
-        image: bacon,
-        price: 2.0,
-    },
-    {
-        name: "Cheese",
-        image: cheese,
-        price: 1.0,
-    },
-    {
-        name: "Cucumber",
-        image: cucumber,
-        price: 0.5,
-    },
-    {
-        name: "Mushrooms",
-        image: mushrooms,
-        price: 1.2,
-    },
-    {
-        name: "Onions",
-        image: onions,
-        price: 0.5,
-    },
-    {
-        name: "Tomatoes",
-        image: tomatoes,
-        price: 0.7,
-    },
+  {
+    name: "Avocado",
+    image: avocado,
+    price: 1.5,
+    description: "Creme de abacate fresco que traz um toque suave e nutritivo.",
+  },
+  {
+    name: "Bacon",
+    image: bacon,
+    price: 2.0,
+    description: "Fatias crocantes de bacon que adicionam sabor defumado.",
+  },
+  {
+    name: "Cheese",
+    image: cheese,
+    price: 1.0,
+    description: "Queijo extra para deixar seu prato ainda mais saboroso.",
+  },
+  {
+    name: "Cucumber",
+    image: cucumber,
+    price: 0.5,
+    description: "Pepino fresco em fatias finas, trazendo crocância.",
+  },
+  {
+    name: "Mushrooms",
+    image: mushrooms,
+    price: 1.2,
+    description: "Cogumelos salteados com sabor suave e textura macia.",
+  },
+  {
+    name: "Onions",
+    image: onions,
+    price: 0.5,
+    description: "Cebolas frescas que adicionam um toque levemente adocicado.",
+  },
+  {
+    name: "Tomatoes",
+    image: tomatoes,
+    price: 0.7,
+    description: "Tomates maduros e suculentos, trazendo frescor ao prato.",
+  },
 ];
 
 export const images = {

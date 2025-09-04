@@ -62,7 +62,7 @@ export default function Home() {
     <View style={styles.categoryCard}>
       <Image source={item.image} style={styles.categoryImage} resizeMode="cover" />
       <Text style={styles.categoryTitle}>{item.title}</Text>
-      <ButtonDetails id={item.id.toString()} name={item.title} image={item.image} />
+      <ButtonDetails id={item.id.toString()} title={item.title} image={item.image} />
     </View>
   );
 

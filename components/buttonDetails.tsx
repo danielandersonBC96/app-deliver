@@ -4,17 +4,21 @@ import { useRouter } from "expo-router";
 type Props = {
   id: string;
   name: string;
-  image: string;
+  image: any; // pode ser require ou URL
+  description: string;
 };
 
-export default function ButtonDetails({ id, name, image }: Props) {
+export default function ButtonDetails({ id, name, image, description }: Props) {
   const router = useRouter();
 
   return (
     <Pressable
       style={styles.button}
       onPress={() =>
-        router.push(`/details/${id}?name=${encodeURIComponent(name)}&image=${encodeURIComponent(image)}`)
+        router.push({
+          pathname: `/details/${id}`,
+          params: { name, image , description }, // envia o objeto da imagem diretamente
+        })
       }
     >
       <Text style={styles.buttonText}>Ver Detalhes</Text>
@@ -30,5 +34,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginVertical: 10,
   },
-  buttonText: { color: "#fff", fontWeight: "bold", textAlign: "center" },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 });

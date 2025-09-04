@@ -19,13 +19,31 @@ const { width } = Dimensions.get('window');
 const CARD_MARGIN = 12;
 const CARD_WIDTH = (width - CARD_MARGIN * 3) / 2;
 
-type Item = { id: string; name: string; image: any; type: string };
+type Item = { id: string; name: string; image: any; type: string; description?: string };
 
 // Combina todos os itens em uma única lista
 const allItems: Item[] = [
-  ...offers.map(item => ({ id: `offer-${item.id}`, name: item.title, image: item.image, type: 'offer' })),
-  ...sides.map((item, index) => ({ id: `side-${index}`, name: item.name, image: item.image, type: 'side' })),
-  ...toppings.map((item, index) => ({ id: `topping-${index}`, name: item.name, image: item.image, type: 'topping' })),
+  ...offers.map(item => ({
+    id: `offer-${item.id}`,
+    name: item.title,
+    image: item.image,
+    type: 'offer',
+    description: item.description,
+  })),
+  ...sides.map((item, index) => ({
+    id: `side-${index}`,
+    name: item.name,
+    image: item.image,
+    type: 'side',
+    description: item.description,
+  })),
+  ...toppings.map((item, index) => ({
+    id: `topping-${index}`,
+    name: item.name,
+    image: item.image,
+    type: 'topping',
+    description: item.description,
+  })),
 ];
 
 export default function Search() {
@@ -61,12 +79,18 @@ export default function Search() {
   const renderCard = ({ item }: { item: Item }) => (
     <View style={styles.card}>
       <Image
-        source={typeof item.image === 'string' ? { uri: item.image } : item.image}
+        source={item.image}
         style={styles.image}
         resizeMode="cover"
       />
       <Text style={styles.title}>{item.name}</Text>
-      <ButtonDetails id={item.id} name={item.name} image={item.image} />
+      {/* descrição removida do card */}
+      <ButtonDetails
+        id={item.id}
+        name={item.name}
+        image={item.image}
+        description={item.description || ""}
+      />
     </View>
   );
 
@@ -133,7 +157,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     textAlign: 'center',
-    marginVertical: 8,
+    marginVertical: 4,
     paddingHorizontal: 5,
   },
   emptyText: {
